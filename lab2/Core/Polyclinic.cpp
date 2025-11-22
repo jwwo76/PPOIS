@@ -1,5 +1,6 @@
 #include "Polyclinic.h"
 #include "Department.h"
+#include "../Exceptions/Exceptions.h"   
 
 Polyclinic::Polyclinic(const std::string& name, const std::string& address)
     : name_(name), address_(address) {}
@@ -11,8 +12,10 @@ void Polyclinic::addDepartment(Department* department) {
 
 void Polyclinic::removeDepartment(Department* department) {
     auto it = std::find(departments_.begin(), departments_.end(), department);
-    if (it != departments_.end())
-        departments_.erase(it);
+    if (it == departments_.end()) {
+        Exceptions::throwDepartmentNotFound("Department not found in polyclinic");
+    }
+    departments_.erase(it);
 }
 
 void Polyclinic::printInfo() const {

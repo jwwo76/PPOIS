@@ -1,5 +1,6 @@
 #include "MedicalEquipment.h"
 #include "../Core/Department.h"
+#include "../Exceptions/Exceptions.h"
 
 MedicalEquipment::MedicalEquipment(const string& name, const string& model, const string& serialNumber,
                                   Department* department, bool isFunctional, const string& lastMaintenanceDate)
@@ -17,6 +18,9 @@ void MedicalEquipment::performMaintenance() {
 }
 
 void MedicalEquipment::reportMalfunction() {
+    if (!isFunctional_) {
+        Exceptions::throwEquipmentUnavailable("Equipment is already reported as malfunctioning");
+    }
     isFunctional_ = false;
     cout << "Malfunction reported for " << name_ << " (Serial: " << serialNumber_ << ")" << endl;
 }

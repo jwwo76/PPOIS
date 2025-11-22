@@ -3,6 +3,7 @@
 #include "../Persons/Doctor.h"
 #include "../Persons/Cleaner.h"
 #include "../Persons/Patient.h"
+#include "../Exceptions/Exceptions.h"
 
 
 Department::Department() 
@@ -38,7 +39,11 @@ void Department::addPatient(Patient* patient) {
 }
 
 void Department::removeDoctor(Doctor* doctor) {
-    doctors_.erase(remove(doctors_.begin(), doctors_.end(), doctor), doctors_.end());
+    auto it = find(doctors_.begin(), doctors_.end(), doctor);
+    if (it == doctors_.end()) {
+        Exceptions::throwDoctorNotFound("Doctor not found in department");
+    }
+    doctors_.erase(it);
 }
 
 void Department::removeCleaner(Cleaner* cleaner) {
