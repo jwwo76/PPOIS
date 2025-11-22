@@ -1,4 +1,5 @@
 #include "OperatingRoom.h"
+#include "../Exceptions/Exceptions.h"
 
 OperatingRoom::OperatingRoom(const string& roomNumber, Department* department, int roomSize,
                             bool hasVentilation)
@@ -6,6 +7,9 @@ OperatingRoom::OperatingRoom(const string& roomNumber, Department* department, i
       equipmentList_(""), roomSize_(roomSize), hasVentilation_(hasVentilation) {}
 
 void OperatingRoom::reserveRoom() {
+    if (!isAvailable_) {
+        Exceptions::throwRoomUnavailable("Operating room is already reserved");
+    }
     isAvailable_ = false;
     cout << "Operating Room " << roomNumber_ << " reserved" << endl;
 }

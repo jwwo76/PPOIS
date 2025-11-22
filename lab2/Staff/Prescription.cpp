@@ -1,11 +1,16 @@
 #include "Prescription.h"
+#include "../Exceptions/Exceptions.h"
 
 Prescription::Prescription(Patient* patient, Doctor* doctor, const string& date, 
                          const vector<string>& medications, const string& dosage, 
                          const string& instructions, int prescriptionId)
     : prescriptionId_(prescriptionId), patient_(patient), doctor_(doctor),
       date_(date), medications_(medications), dosage_(dosage), 
-      instructions_(instructions), isFilled_(false) {}
+      instructions_(instructions), isFilled_(false) {
+    if (medications.empty()) {
+        Exceptions::throwInvalidPrescription("Prescription must have at least one medication");
+    }
+}
 
 void Prescription::addMedication(const string& medication) {
     medications_.push_back(medication);

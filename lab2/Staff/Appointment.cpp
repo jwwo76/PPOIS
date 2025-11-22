@@ -1,8 +1,16 @@
 #include "Appointment.h"
+#include "../Exceptions/Exceptions.h"
 
 Appointment::Appointment(Patient* patient, Doctor* doctor, const string& dateTime, const string& reason, int appointmentId)
     : appointmentId_(appointmentId), patient_(patient), doctor_(doctor),
-      dateTime_(dateTime), reason_(reason), isCompleted_(false), cost_(0.0) {}
+      dateTime_(dateTime), reason_(reason), isCompleted_(false), cost_(0.0) {
+    if (!patient) {
+        Exceptions::throwPatientNotFound("Patient is required for appointment");
+    }
+    if (!doctor) {
+        Exceptions::throwDoctorNotFound("Doctor is required for appointment");
+    }
+}
 
 void Appointment::reschedule(const string& newDateTime) {
     dateTime_ = newDateTime;

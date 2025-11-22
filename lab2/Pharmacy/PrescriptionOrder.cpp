@@ -1,9 +1,14 @@
 #include "PrescriptionOrder.h"
+#include "../Exceptions/Exceptions.h"
 
 PrescriptionOrder::PrescriptionOrder(Prescription* prescription, Patient* patient, Doctor* doctor,
                                     const string& orderDate, double totalCost, int orderId)
     : orderId_(orderId), prescription_(prescription), patient_(patient), doctor_(doctor),
-      orderDate_(orderDate), status_("Pending"), totalCost_(totalCost) {}
+      orderDate_(orderDate), status_("Pending"), totalCost_(totalCost) {
+    if (!prescription) {
+        Exceptions::throwInvalidPrescription("Prescription is required for order");
+    }
+}
 
 void PrescriptionOrder::processOrder() {
     status_ = "Processing";
